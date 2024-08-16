@@ -8,7 +8,7 @@ export const createBlog = async (req, res) => {
         description,
         content,
         author,
-        authorProfesion,
+        authorProfession,
         lastUpdated,
         category,
     } = req.body;
@@ -18,7 +18,7 @@ export const createBlog = async (req, res) => {
         !title ||
         !content ||
         !author ||
-        !authorProfesion ||
+        !authorProfession ||
         !category ||
         !blogImage ||
         !authorImage
@@ -34,7 +34,7 @@ export const createBlog = async (req, res) => {
         description: description ? description : "",
         content,
         author,
-        authorProfesion,
+        authorProfession,
         category,
         lastUpdated: lastUpdated ? lastUpdated : new Date(),
         blogImageUrl,
