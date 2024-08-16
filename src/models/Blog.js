@@ -9,7 +9,7 @@ const blogSchema = new Schema({
     lastUpdated: { type: String, required: true },
     category: { type: String, required: true },
     author: { type: String, required: true },
-    authorProffesion: { type: String, required: true },
+    authorProfesion: { type: String, required: true },
     authorImageUrl: { type: String, required: true },
     blogImageUrl: { type: String, required: true },
 });
