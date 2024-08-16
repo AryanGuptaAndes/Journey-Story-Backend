@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Blog from "../models/Blog.js";
 import cloudinary from "cloudinary";
 
@@ -8,15 +9,21 @@ export const createBlog = async (req, res) => {
         content,
         author,
         authorProffesion,
-        date,
+        lastUpdated,
         category,
     } = req.body;
     const { blogImage, authorImage } = req.files;
 
-    if (!title || !content || !blogImage || !authorImage) {
-        return res
-            .status(400)
-            .send("Title, content, and image files are required");
+    if (
+        !title ||
+        !content ||
+        !author ||
+        !authorProffesion ||
+        !category ||
+        !blogImage ||
+        !authorImage
+    ) {
+        return res.status(400).send("All fields are required");
     }
 
     const blogImageUrl = await uploadImage(blogImage[0]);
@@ -24,12 +31,12 @@ export const createBlog = async (req, res) => {
 
     const blog = new Blog({
         title,
-        description,
+        description: description ? description : "",
         content,
         author,
         authorProffesion,
         category,
-        date,
+        lastUpdated: lastUpdated ? lastUpdated : new Date(),
         blogImageUrl,
         authorImageUrl,
     });
@@ -48,11 +55,52 @@ const uploadImage = async (file) => {
 
 export const getBlogById = async (req, res) => {
     const blogId = req.params.blogId;
+    if (!blogId) {
+        return res.status(400).send("BlogId is required");
+    }
+    if (!mongoose.Types.ObjectId.isValid(blogId)) {
+        return res.status(400).send("Invalid BlogId format");
+    }
     const blog = await Blog.findById(blogId);
+    if (!blog) {
+        return res.status(404).send("Blog not found");
+    }
     res.send(blog);
 };
 
 export const getBlogs = async (req, res) => {
-    const blogs = await Blog.find();
-    res.send(blogs);
+    const sortOption = req.query.sortOption || "lastUpdated";
+    const page = parseInt(req.query.page) || 1;
+
+    const total = await Blog.countDocuments();
+
+    const pageSize = 8;
+    const skip = (page - 1) * pageSize;
+
+    const blogs = await Blog.find()
+        .sort({ [sortOption]: 1 })
+        .skip(skip)
+        .limit(pageSize);
+
+    if (!blogs) {
+        return res.status(404).json({
+            data: [],
+            pagination: {
+                total: 0,
+                page: 1,
+                pages: 0,
+            },
+        });
+    }
+
+    const response = {
+        data: blogs,
+        pagination: {
+            total,
+            page,
+            pages: Math.ceil(total / pageSize),
+        },
+    };
+
+    res.json(response);
 };
