@@ -41,7 +41,7 @@ export const createBlog = async (req, res) => {
         authorImageUrl,
     });
     await blog.save();
-    res.send(blog);
+    res.json({ data: blog });
 };
 
 const uploadImage = async (file) => {
@@ -65,7 +65,7 @@ export const getBlogById = async (req, res) => {
     if (!blog) {
         return res.status(404).send("Blog not found");
     }
-    res.send(blog);
+    res.json({ data: blog });
 };
 
 export const getBlogs = async (req, res) => {
@@ -102,5 +102,5 @@ export const getBlogs = async (req, res) => {
         },
     };
 
-    res.json(response);
+    res.json({ data: response });
 };

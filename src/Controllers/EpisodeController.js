@@ -17,7 +17,7 @@ export const createEpisode = async (req, res) => {
     newEpisode.thumbnail = thumbnailUrl;
     await newEpisode.save();
 
-    res.status(201).json(newEpisode);
+    res.status(201).json({ data: newEpisode });
 };
 
 const uploadImage = async (file) => {
@@ -58,5 +58,5 @@ export const getEpisodes = async (req, res) => {
         },
     };
 
-    res.json(response);
+    res.json({ data: response });
 };
