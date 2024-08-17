@@ -6,6 +6,7 @@ import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 import blogRouter from "./Routes/BlogRoute.js";
 import episodeRouter from "./Routes/EpisodesRoute.js";
+import TeamMemberRouter from "./Routes/TeamMemberRoute.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.get("/health", async (req, res) => {
 
 app.use("/api/blog", blogRouter);
 app.use("/api/episode", episodeRouter);
+app.use("/api/team-member", TeamMemberRouter);
 
 app.listen(8080, () => {
     console.log("Server is running on port 8080");
