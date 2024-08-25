@@ -33,7 +33,7 @@ app.get("/health", async (req, res) => {
 app.use("/api/blog", blogRouter);
 app.use("/api/episode", episodeRouter);
 app.use("/api/team-members", TeamMemberRouter);
-app.post("/create-blog", createBlogHandler); 
+app.post("/api/create-blog", createBlogHandler); 
 
 app.listen(8080, () => {
     console.log("Server is running on port 8080");
