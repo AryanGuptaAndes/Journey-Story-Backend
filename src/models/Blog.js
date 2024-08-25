@@ -6,7 +6,7 @@ const blogSchema = new Schema({
     title: { type: String, required: true },
     description: { type: String, default: "", required: true },
     content: { type: String, required: true },
-    lastUpdated: { type: String, required: true },
+    lastUpdated: { type: Date, default: Date.now },
     category: { type: String, required: true },
     author: { type: String, required: true },
     authorProfession: { type: String, required: true },
