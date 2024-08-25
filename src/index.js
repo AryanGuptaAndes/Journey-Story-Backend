@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import blogRouter from "./Routes/BlogRoute.js";
 import episodeRouter from "./Routes/EpisodesRoute.js";
 import TeamMemberRouter from "./Routes/TeamMemberRoute.js";
+import createBlogHandler from "./Routes/create-blog.js"; 
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.get("/health", async (req, res) => {
 app.use("/api/blog", blogRouter);
 app.use("/api/episode", episodeRouter);
 app.use("/api/team-members", TeamMemberRouter);
+app.post("/create-blog", createBlogHandler); 
 
 app.listen(8080, () => {
     console.log("Server is running on port 8080");
